@@ -1,5 +1,7 @@
 'use strict'
 
+const Joi = require('joi')
+
 const Schema = require('./schema')
 const Handlers = require('./handlers')
 
@@ -39,6 +41,19 @@ internals.registerRoutes = async function (server) {
       config: {
         description: 'Lists all contacts',
         handler: internals.handlers.listAll
+      }
+    },
+    {
+      method: 'GET',
+      path: `${internals.basePath}/{id}`,
+      config: {
+        description: 'Reads a specific contact by id',
+        validate: {
+          params: {
+            id: Joi.number().min(1)
+          }
+        },
+        handler: internals.handlers.read
       }
     }
   ])

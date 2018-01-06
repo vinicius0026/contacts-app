@@ -9,14 +9,21 @@ module.exports = function (options) {
 
   return {
     create,
-    listAll
+    listAll,
+    read
   }
 }
 
-async function create (request, h) {
+function create (request, h) {
   return internals.Contact.create(request.payload)
 }
 
-async function listAll (request, h) {
+function listAll (request, h) {
   return internals.Contact.listAll()
+}
+
+function read (request, h) {
+  const { id } = request.params
+
+  return internals.Contact.read(id)
 }

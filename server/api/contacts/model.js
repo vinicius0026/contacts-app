@@ -1,6 +1,7 @@
 'use strict'
 
 const _ = require('lodash')
+const Boom = require('boom')
 
 const internals = {}
 
@@ -59,6 +60,19 @@ module.exports = function (di) {
         id: c.id,
         fullName: c.fullName
       }))
+    }
+
+    static async read (id) {
+      const [contact] = await Contact.query()
+        .where('id', id)
+
+      if (!contact) {
+        throw Boom.notFound('Contact not found')
+      }
+
+      await contact.$relatedQuery('addresses')
+
+      return contact
     }
   }
 

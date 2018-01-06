@@ -146,6 +146,64 @@ describe('Contacts API Tests', () => {
       await server.stop()
     })
   })
+
+  describe('Read Contact Tests', () => {
+    let contactId
+    const contact = Payload.contact()
+
+    before(async () => {
+      const server = await Server.init(internals.manifest, internals.composeOptions)
+
+      const res = await server.inject({
+        method: 'POST',
+        url: '/api/contacts',
+        payload: contact
+      })
+
+      contactId = res.result.id
+
+      await server.stop()
+    })
+
+    after(async () => {
+      await knex('addresses').del()
+      await knex('contacts').del()
+    })
+
+    it('should be able to read contact by id', async () => {
+      const server = await Server.init(internals.manifest, internals.composeOptions)
+
+      const res = await server.inject({
+        method: 'GET',
+        url: `/api/contacts/${contactId}`
+      })
+
+      expect(res.statusCode).to.equal(200)
+      const readContact = res.result
+
+      expect(_.omit(readContact, ['addresses', 'id', 'createdAt', 'updatedAt'])).to.equal(_.omit(contact, ['addresses']))
+
+      contact.addresses.forEach(addr => {
+        const readAddress = readContact.addresses.find(cAddr => cAddr.street === addr.street)
+        expect(readAddress).to.exist()
+      })
+
+      await server.stop()
+    })
+
+    it('should return 404 if contact not found', async () => {
+      const server = await Server.init(internals.manifest, internals.composeOptions)
+
+      const res = await server.inject({
+        method: 'GET',
+        url: `/api/contacts/${contactId + 99}`
+      })
+
+      expect(res.statusCode).to.equal(404)
+
+      await server.stop()
+    })
+  })
 })
 
 internals.manifest = {
