@@ -15,8 +15,9 @@ module.exports = function (options) {
   }
 }
 
-function create (request, h) {
-  return internals.Contact.create(request.payload)
+async function create (request, h) {
+  const contact = await internals.Contact.create(request.payload)
+  return h.response(contact).code(201)
 }
 
 function listAll (request, h) {

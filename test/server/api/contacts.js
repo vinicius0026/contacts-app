@@ -45,6 +45,7 @@ describe('Contacts API Tests', () => {
         payload: contact
       })
 
+      expect(res.statusCode).to.equal(201)
       const createdContact = res.result
 
       _.keys(_.omit(contact, ['addresses'])).forEach(prop => {
