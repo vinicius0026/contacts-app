@@ -4,7 +4,7 @@ const base = {
   id: Joi.number().min(1),
   firstName: Joi.string().description('Contact\'s first name'),
   lastName: Joi.string().description('Contact\'s last name'),
-  birthday: Joi.date().description('Contact\'s birthday'),
+  birthday: Joi.any().description('Contact\'s birthday'),
   emails: Joi.array().items(Joi.string().email()).description('Contact\'s emails').default([]),
   phoneNumbers: Joi.array().items(Joi.string()).description('Contact\'s phone numbers').default([]),
   addresses: Joi.array().items(
