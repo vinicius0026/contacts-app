@@ -32,7 +32,6 @@ const actions = {
   loadContacts ({ commit }) {
     return contactsService.load()
       .then(contacts => {
-        console.log('contacts', contacts)
         commit('setContacts', contacts)
       })
   },
@@ -40,6 +39,12 @@ const actions = {
     return contactsService.create(payload)
       .then(() => {
         return dispatch('loadContacts')
+      })
+  },
+  selectContact ({ commit }, id) {
+    return contactsService.read(id)
+      .then(contact => {
+        commit('selectContact', contact)
       })
   }
 }

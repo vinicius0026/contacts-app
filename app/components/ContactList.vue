@@ -8,7 +8,7 @@
       <v-list-tile
         v-for="contact in contacts"
         :key="contact.id"
-        @click="selectContact(contact)"
+        @click="selectContact(contact.id)"
       >
         <v-list-tile-content>
           <v-list-tile-title>
@@ -21,13 +21,13 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   computed: {
     ...mapGetters(['contacts'])
   },
   methods: {
-    ...mapMutations(['selectContact'])
+    ...mapActions(['selectContact'])
   }
 }
 </script>
