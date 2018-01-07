@@ -50,10 +50,23 @@ internals.registerRoutes = async function (server) {
         description: 'Reads a specific contact by id',
         validate: {
           params: {
-            id: Joi.number().min(1)
+            id: Joi.number().min(1).required()
           }
         },
         handler: internals.handlers.read
+      }
+    },
+    {
+      method: 'DELETE',
+      path: `${internals.basePath}/{id}`,
+      config: {
+        description: 'Deletes a specific contact by id',
+        validate: {
+          params: {
+            id: Joi.number().min(1).required()
+          }
+        },
+        handler: internals.handlers.remove
       }
     }
   ])

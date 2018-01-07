@@ -75,6 +75,19 @@ module.exports = function (di) {
 
       return contact
     }
+
+    static async remove (id) {
+      const contact = await Contact.read(id)
+      const addressesIds = contact.addresses.map(addr => addr.id)
+
+      await Address.query()
+        .delete()
+        .whereIn('id', addressesIds)
+
+      await Contact.query()
+        .delete()
+        .where('id', id)
+    }
   }
 
   class Address extends BaseModel {

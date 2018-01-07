@@ -10,7 +10,8 @@ module.exports = function (options) {
   return {
     create,
     listAll,
-    read
+    read,
+    remove
   }
 }
 
@@ -26,4 +27,12 @@ function read (request, h) {
   const { id } = request.params
 
   return internals.Contact.read(id)
+}
+
+async function remove (request, h) {
+  const { id } = request.params
+
+  await internals.Contact.remove(id)
+
+  return h.response().code(204)
 }

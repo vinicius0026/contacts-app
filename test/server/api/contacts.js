@@ -5,7 +5,7 @@ const Code = require('code')
 const Lab = require('lab')
 const Path = require('path')
 
-const { describe, it, before, after } = exports.lab = Lab.script()
+const { describe, it, before, beforeEach, after, afterEach } = exports.lab = Lab.script()
 const { expect } = Code
 
 const dbConfig = require('../../../knexfile')
@@ -196,6 +196,57 @@ describe('Contacts API Tests', () => {
 
       const res = await server.inject({
         method: 'GET',
+        url: `/api/contacts/${contactId + 99}`
+      })
+
+      expect(res.statusCode).to.equal(404)
+
+      await server.stop()
+    })
+  })
+
+  describe('Delete Contact tests', () => {
+    const contact = Payload.contact()
+    let contactId
+
+    beforeEach(async () => {
+      const server = await Server.init(internals.manifest, internals.composeOptions)
+
+      const res = await server.inject({
+        method: 'POST',
+        url: '/api/contacts',
+        payload: contact
+      })
+
+      contactId = res.result.id
+
+      await server.stop()
+    })
+
+    afterEach(async () => {
+      await knex('addresses').del()
+      await knex('contacts').del()
+    })
+
+    it('should remove contact by id', async () => {
+      const server = await Server.init(internals.manifest, internals.composeOptions)
+
+      const res = await server.inject({
+        method: 'DELETE',
+        url: `/api/contacts/${contactId}`
+      })
+
+      expect(res.statusCode).to.equal(204)
+      expect(res.result).to.be.null()
+
+      await server.stop()
+    })
+
+    it('should return 404 if contact is not found', async () => {
+      const server = await Server.init(internals.manifest, internals.composeOptions)
+
+      const res = await server.inject({
+        method: 'DELETE',
         url: `/api/contacts/${contactId + 99}`
       })
 
