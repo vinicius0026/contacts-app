@@ -16,7 +16,10 @@
         <v-btn icon>
           <v-icon>edit</v-icon>
         </v-btn>
-        <v-btn icon>
+        <v-btn
+          icon
+          @click="handleRemoveContact"
+        >
           <v-icon>delete</v-icon>
         </v-btn>
       </v-card-title>
@@ -50,7 +53,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions, mapMutations } from 'vuex'
 import {
   format as formatDate
 } from 'date-fns'
@@ -69,6 +72,20 @@ export default {
     },
     birthday () {
       return this.selectedContact && formatDate(this.selectedContact.birthday, 'MMM Do YYYY')
+    }
+  },
+  methods: {
+    ...mapMutations(['setErrorMessage']),
+    ...mapActions(['removeContact']),
+    handleRemoveContact () {
+      if (!window.confirm('Do you really wanto to remove this contact? This action cannot be undone!')) {
+        return
+      }
+      try {
+        this.removeContact(this.selectedContact.id)
+      } catch (err) {
+        this.setErrorMessage(err.message)
+      }
     }
   }
 }

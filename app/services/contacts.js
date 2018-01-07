@@ -6,7 +6,8 @@ const basePath = '/api/contacts'
 const api = {
   create: () => basePath,
   listAll: () => basePath,
-  read: id => `${basePath}/${id}`
+  read: id => `${basePath}/${id}`,
+  remove: id => `${basePath}/${id}`
 }
 
 export async function load () {
@@ -26,8 +27,13 @@ export async function read (id) {
   }
 }
 
+export function remove (id) {
+  return axios.delete(api.remove(id))
+}
+
 export default {
   load,
   create,
-  read
+  read,
+  remove
 }

@@ -46,6 +46,13 @@ const actions = {
       .then(contact => {
         commit('selectContact', contact)
       })
+  },
+  removeContact ({ commit, dispatch }, id) {
+    return contactsService.remove(id)
+      .then(() => {
+        dispatch('loadContacts')
+        commit('selectContact', null)
+      })
   }
 }
 
