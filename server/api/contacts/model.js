@@ -54,7 +54,8 @@ module.exports = function (di) {
     static async listAll (data) {
       const contacts = await Contact.query()
         .select('id', 'first_name', 'last_name')
-        .orderBy('first_name')
+        .orderBy(knex.raw('lower(first_name)'))
+        .orderBy(knex.raw('lower(last_name)'))
 
       return contacts.map(c => ({
         id: c.id,
