@@ -3,6 +3,7 @@
     xs12
     sm6
     md4
+    class="contact-list"
   >
     <v-container>
       <v-layout class="search-box pa-1">
@@ -48,6 +49,12 @@ export default {
   computed: {
     ...mapGetters(['contacts'])
   },
+  watch: {
+    contacts () {
+      const filterRegex = new RegExp(this.searchTerm, 'i')
+      this.filteredContacts = this.contacts.filter(contact => contact.fullName.match(filterRegex))
+    }
+  },
   mounted () {
     this.filteredContacts = this.contacts
   },
@@ -62,6 +69,10 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.contact-list
+  overflow-y scroll
+  max-height 100vh
+
 .search-box
   border 1px solid rgba(0,0,0,.25)
   border-radius 2px
