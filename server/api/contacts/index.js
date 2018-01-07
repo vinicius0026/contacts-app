@@ -68,6 +68,17 @@ internals.registerRoutes = async function (server) {
         },
         handler: internals.handlers.remove
       }
+    },
+    {
+      method: 'PUT',
+      path: `${internals.basePath}/{id}`,
+      config: {
+        description: 'Updates a contact by id, the previous contact is replaced by the request payload',
+        validate: {
+          payload: Schema.update
+        },
+        handler: internals.handlers.update
+      }
     }
   ])
 }

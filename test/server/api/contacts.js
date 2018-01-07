@@ -256,6 +256,157 @@ describe('Contacts API Tests', () => {
       await server.stop()
     })
   })
+
+  describe('Update Contact Tests', () => {
+    const contact = Payload.contact()
+    let createdContact
+    let contactId
+
+    beforeEach(async () => {
+      const server = await Server.init(internals.manifest, internals.composeOptions)
+
+      const res = await server.inject({
+        method: 'POST',
+        url: '/api/contacts',
+        payload: contact
+      })
+
+      createdContact = res.result
+      contactId = res.result.id
+
+      await server.stop()
+    })
+
+    afterEach(async () => {
+      await knex('addresses').del()
+      await knex('contacts').del()
+    })
+
+    it('should update basic data, removing addresses (no addresses in update payload)', async () => {
+      const updatePayload = _.omit(Payload.contact(), ['addresses'])
+
+      const server = await Server.init(internals.manifest, internals.composeOptions)
+
+      const res = await server.inject({
+        method: 'PUT',
+        url: `/api/contacts/${contactId}`,
+        payload: updatePayload
+      })
+
+      expect(res.statusCode).to.equal(200)
+
+      const updatedContact = res.result
+      expect(_.omit(updatedContact, ['updatedAt', 'createdAt', 'id'])).to.equal({ ...updatePayload, addresses: [] })
+
+      await server.stop()
+    })
+
+    it('should include the new addresses provided in payload', async () => {
+      const generatedPayload = Payload.contact()
+      const updatePayload = {
+        ...generatedPayload,
+        addresses: [...createdContact.addresses, ...generatedPayload.addresses]
+      }
+
+      const server = await Server.init(internals.manifest, internals.composeOptions)
+
+      const res = await server.inject({
+        method: 'PUT',
+        url: `/api/contacts/${contactId}`,
+        payload: updatePayload
+      })
+
+      expect(res.statusCode).to.equal(200)
+
+      const updatedContact = res.result
+
+      expect(updatedContact.addresses).to.have.length(updatePayload.addresses.length)
+      expect(_.omit(updatedContact, ['addresses', 'updatedAt', 'createdAt', 'id'])).to.equal(_.omit(updatePayload, ['addresses']))
+
+      updatePayload.addresses.forEach(addr => {
+        const updatedAddress = updatedContact.addresses.find(cAddr => cAddr.street === addr.street)
+        expect(updatedAddress).to.exist()
+      })
+
+      await server.stop()
+    })
+
+    it('should update basic data and remove addresses that are not present in payload data, leaving the unmodified addresses untouched', async () => {
+      const updatePayload = Payload.contact({
+        addresses: createdContact.addresses.slice(1)
+      })
+
+      const server = await Server.init(internals.manifest, internals.composeOptions)
+
+      const res = await server.inject({
+        method: 'PUT',
+        url: `/api/contacts/${contactId}`,
+        payload: updatePayload
+      })
+
+      expect(res.statusCode).to.equal(200)
+
+      const updatedContact = res.result
+      expect(updatedContact.addresses).to.have.length(contact.addresses.length - 1)
+      expect(_.omit(updatedContact, ['addresses', 'updatedAt', 'createdAt', 'id'])).to.equal(_.omit(updatePayload, ['addresses']))
+
+      updatePayload.addresses.forEach(addr => {
+        const updatedAddress = updatedContact.addresses.find(cAddr => cAddr.street === addr.street)
+        expect(updatedAddress).to.exist()
+      })
+
+      await server.stop()
+    })
+
+    it('should update basic data and provided addresses, if changed', async () => {
+      const newAddrNumber = 'new number'
+      const generatedPayload = Payload.contact()
+      const updatePayload = {
+        ...generatedPayload,
+        addresses: createdContact.addresses.map(addr => ({
+          ...addr,
+          number: newAddrNumber
+        }))
+      }
+
+      const server = await Server.init(internals.manifest, internals.composeOptions)
+
+      const res = await server.inject({
+        method: 'PUT',
+        url: `/api/contacts/${contactId}`,
+        payload: updatePayload
+      })
+
+      expect(res.statusCode).to.equal(200)
+
+      const updatedContact = res.result
+
+      updatePayload.addresses.forEach(addr => {
+        const updatedAddress = updatedContact.addresses.find(cAddr => cAddr.street === addr.street)
+        expect(updatedAddress).to.exist()
+        expect(updatedAddress.id).to.equal(addr.id)
+        expect(updatedAddress.number).to.equal(newAddrNumber)
+      })
+
+      await server.stop()
+    })
+
+    it('should return 404 if contact not found', async () => {
+      const updatePayload = Payload.contact()
+
+      const server = await Server.init(internals.manifest, internals.composeOptions)
+
+      const res = await server.inject({
+        method: 'PUT',
+        url: `/api/contacts/${contactId + 99}`,
+        payload: updatePayload
+      })
+
+      expect(res.statusCode).to.equal(404)
+
+      await server.stop()
+    })
+  })
 })
 
 internals.manifest = {

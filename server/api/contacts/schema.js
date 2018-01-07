@@ -26,7 +26,28 @@ const create = {
   phoneNumbers: base.phoneNumbers.min(1)
 }
 
+const update = {
+  ...create,
+  createdAt: Joi.any(),
+  updatedAt: Joi.any(),
+  fullName: Joi.string(),
+  addresses: Joi.array().items({
+    street: Joi.string().required(),
+    number: Joi.string().required(),
+    zip: Joi.string().required(),
+    city: Joi.string().required(),
+    state: Joi.string().length(2).required(),
+    id: Joi.number().min(1),
+    createdAt: Joi.any(),
+    created_at: Joi.any(),
+    updatedAt: Joi.any(),
+    updated_at: Joi.any(),
+    contactId: Joi.number().min(1)
+  }).default([])
+}
+
 module.exports = {
   base,
-  create
+  create,
+  update
 }

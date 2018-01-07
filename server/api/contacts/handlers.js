@@ -11,7 +11,8 @@ module.exports = function (options) {
     create,
     listAll,
     read,
-    remove
+    remove,
+    update
   }
 }
 
@@ -36,4 +37,11 @@ async function remove (request, h) {
   await internals.Contact.remove(id)
 
   return h.response().code(204)
+}
+
+function update (request, h) {
+  const { id } = request.params
+  const { payload } = request
+
+  return internals.Contact.update(id, payload)
 }

@@ -1,3 +1,4 @@
+const Boom = require('boom')
 const Path = require('path')
 
 const Config = require('./config')
@@ -9,6 +10,17 @@ module.exports = {
     routes: {
       files: {
         relativeTo: Path.resolve(__dirname, '..')
+      },
+      validate: {
+        failAction: async (request, h, err) => {
+          if (process.env.NODE_ENV === 'production') {
+            console.error('ValidationError:', err.message)
+            throw Boom.badRequest(`Invalid request payload input`)
+          } else {
+            console.error(err)
+            throw err
+          }
+        }
       }
     }
   },
