@@ -35,24 +35,26 @@ const actions = {
         commit('setContacts', contacts)
       })
   },
-  createContact ({ dispatch }, payload) {
-    return contactsService.create(payload)
-      .then(() => {
-        return dispatch('loadContacts')
-      })
+  async createOrUpdateContact ({ commit, dispatch }, payload) {
+    let contact
+
+    if (payload.id) {
+      contact = await contactsService.update(payload)
+    } else {
+      contact = await contactsService.create(payload)
+    }
+
+    await dispatch('loadContacts')
+    await commit('selectContact', contact)
   },
-  selectContact ({ commit }, id) {
-    return contactsService.read(id)
-      .then(contact => {
-        commit('selectContact', contact)
-      })
+  async selectContact ({ commit }, id) {
+    const contact = await contactsService.read(id)
+    commit('selectContact', contact)
   },
-  removeContact ({ commit, dispatch }, id) {
-    return contactsService.remove(id)
-      .then(() => {
-        dispatch('loadContacts')
-        commit('selectContact', null)
-      })
+  async removeContact ({ commit, dispatch }, id) {
+    await contactsService.remove(id)
+    await dispatch('loadContacts')
+    commit('selectContact', null)
   }
 }
 

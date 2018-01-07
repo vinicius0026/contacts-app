@@ -26,39 +26,44 @@
       v-for="(address, i) in addresses"
       :key="i"
       wrap
-      class="grey lighten-4 mb-2 pa-2"
+      class="mb-2 pa-2 address-block"
     >
       <v-flex xs4>
         <v-text-field
           v-model="address.number"
-          placeholder="Number"
+          label="Number"
           class="pr-1"
+          hide-details
         />
       </v-flex>
       <v-flex xs8>
         <v-text-field
           v-model="address.street"
-          placeholder="Street"
+          label="Street"
+          hide-details
         />
       </v-flex>
       <v-flex xs6>
         <v-text-field
           v-model="address.city"
-          placeholder="City"
+          label="City"
           class="pr-1"
+          hide-details
         />
       </v-flex>
       <v-flex xs2>
         <v-text-field
           v-model="address.state"
-          placeholder="State"
+          label="State"
           class="pr-1"
+          hide-details
         />
       </v-flex>
       <v-flex xs4>
         <v-text-field
           v-model="address.zip"
-          placeholder="Zip code"
+          label="Zip code"
+          hide-details
         />
       </v-flex>
       <v-flex class="text-xs-center">
@@ -87,9 +92,15 @@ export default {
     }
   },
   watch: {
+    value (val) {
+      this.addresses = val
+    },
     addresses (val) {
-      this.$emit('input', val.filter(a => Object.keys(a).length))
+      this.$emit('input', val)
     }
+  },
+  mounted () {
+    this.addresses = this.value
   },
   methods: {
     addAddress () {
@@ -101,3 +112,8 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus" scoped>
+.address-block:not(:last-child)
+  border-bottom 1px solid rgba(0,0,0,.25)
+</style>

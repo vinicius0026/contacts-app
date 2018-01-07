@@ -15,17 +15,10 @@
       color="red"
       dark
       fixed
-      @click.stop="showCreateContact = true"
+      @click.stop="createContact"
     >
       <v-icon>add</v-icon>
     </v-btn>
-    <v-dialog
-      model="visible"
-      max-width="500"
-      v-model="showCreateContact"
-    >
-      <CreateContact @closeModal="showCreateContact = false"/>
-    </v-dialog>
     <v-snackbar
       :timeout="6000"
       bottom
@@ -37,16 +30,11 @@
 </template>
 
 <script>
-import CreateContact from './components/CreateContact'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 
 export default {
-  components: {
-    CreateContact
-  },
   data () {
     return {
-      showCreateContact: false,
       showSnack: false
     }
   },
@@ -56,6 +44,16 @@ export default {
   watch: {
     errorMessage (val) {
       this.showSnack = !!val
+    }
+  },
+  methods: {
+    ...mapMutations(['selectContact']),
+    createContact () {
+      this.selectContact({
+        phoneNumbers: [''],
+        emails: [''],
+        addresses: []
+      })
     }
   }
 }

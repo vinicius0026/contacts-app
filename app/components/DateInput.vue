@@ -12,10 +12,10 @@
   >
     <v-text-field
       slot="activator"
-      label="Birthday"
+      :label="hideLabel ? '' : 'Birthday'"
       v-model="date"
-      prepend-icon="event"
       readonly
+      :class="{ 'pt-0': removeTopPadding }"
     />
     <v-date-picker
       v-model="date"
@@ -45,11 +45,20 @@
 </template>
 
 <script>
+import { format } from 'date-fns'
 export default {
   props: {
     value: {
       type: null,
       default: null
+    },
+    hideLabel: {
+      type: Boolean,
+      default: false
+    },
+    removeTopPadding: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -62,6 +71,11 @@ export default {
     date (val) {
       const [year, month, day] = val.split('-')
       this.$emit('input', new Date(year, month - 1, day))
+    }
+  },
+  mounted () {
+    if (this.value) {
+      this.date = format(this.value, 'YYYY-MM-DD')
     }
   }
 }
