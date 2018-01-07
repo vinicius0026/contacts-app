@@ -22,6 +22,8 @@
         class="pt-0"
         :append-icon="appendIconEdit"
         :append-icon-cb="appendIconClicked"
+        :type="type"
+        maxlength="100"
       />
     </v-flex>
   </v-layout>
@@ -45,6 +47,10 @@ export default {
     appendIconEdit: {
       type: String,
       default: ''
+    },
+    type: {
+      type: String,
+      default: 'text'
     }
   },
   data () {

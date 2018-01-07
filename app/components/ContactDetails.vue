@@ -52,6 +52,7 @@
                 label="First Name"
                 class="pr-1"
                 hide-details
+                maxlength="100"
               />
             </v-flex>
             <v-flex xs5>
@@ -59,6 +60,7 @@
                 v-model="editedContact.lastName"
                 label="Last Name"
                 hide-details
+                maxlength="100"
               />
             </v-flex>
             <v-flex
@@ -101,11 +103,13 @@
             icon="phone"
             v-model="editedContact.phoneNumbers"
             :edit-mode="editMode"
+            type="tel"
           />
           <ContactDetailGroupEntry
             icon="email"
             v-model="editedContact.emails"
             :edit-mode="editMode"
+            type="email"
           />
           <ContactDetailDateEntry
             v-model="editedContact.birthday"

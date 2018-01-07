@@ -8,6 +8,7 @@
       :edit-mode="editMode"
       :append-icon-edit="i === entries.length ? 'add' : 'remove'"
       @appendIconClicked="addOrRemoveEntry(i)"
+      :type="type"
     />
   </div>
 </template>
@@ -30,6 +31,10 @@ export default {
     value: {
       type: Array,
       default: () => []
+    },
+    type: {
+      type: String,
+      default: 'text'
     }
   },
   data () {

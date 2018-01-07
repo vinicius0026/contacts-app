@@ -34,6 +34,7 @@
           label="Number"
           class="pr-1"
           hide-details
+          maxlength="10"
         />
       </v-flex>
       <v-flex xs8>
@@ -41,6 +42,7 @@
           v-model="address.street"
           label="Street"
           hide-details
+          maxlength="100"
         />
       </v-flex>
       <v-flex xs6>
@@ -49,6 +51,7 @@
           label="City"
           class="pr-1"
           hide-details
+          maxlength="100"
         />
       </v-flex>
       <v-flex xs2>
@@ -57,6 +60,7 @@
           label="State"
           class="pr-1"
           hide-details
+          maxlength="2"
         />
       </v-flex>
       <v-flex xs4>
@@ -64,6 +68,7 @@
           v-model="address.zip"
           label="Zip code"
           hide-details
+          maxlength="10"
         />
       </v-flex>
       <v-flex class="text-xs-center">
