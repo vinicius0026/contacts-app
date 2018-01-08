@@ -34,9 +34,7 @@ const config = {
       development: {
         database: 'contacts_app_dev'
       },
-      production: {
-        database: process.env.DATABASE_URL
-      }
+      production: process.env.DATABASE_URL
     }
   }
 }
