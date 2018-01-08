@@ -28,6 +28,7 @@ internals.registerRoutes = async function (server) {
       method: 'POST',
       path: internals.basePath,
       config: {
+        tags: ['api'],
         description: 'Creates a contact',
         validate: {
           payload: Schema.create
@@ -47,10 +48,11 @@ internals.registerRoutes = async function (server) {
       method: 'GET',
       path: `${internals.basePath}/{id}`,
       config: {
+        tags: ['api'],
         description: 'Reads a specific contact by id',
         validate: {
           params: {
-            id: Joi.number().min(1).required()
+            id: Joi.number().integer().min(1).required()
           }
         },
         handler: internals.handlers.read
@@ -60,10 +62,11 @@ internals.registerRoutes = async function (server) {
       method: 'DELETE',
       path: `${internals.basePath}/{id}`,
       config: {
+        tags: ['api'],
         description: 'Deletes a specific contact by id',
         validate: {
           params: {
-            id: Joi.number().min(1).required()
+            id: Joi.number().integer().min(1).required()
           }
         },
         handler: internals.handlers.remove
@@ -73,9 +76,13 @@ internals.registerRoutes = async function (server) {
       method: 'PUT',
       path: `${internals.basePath}/{id}`,
       config: {
+        tags: ['api'],
         description: 'Updates a contact by id, the previous contact is replaced by the request payload',
         validate: {
-          payload: Schema.update
+          payload: Schema.update,
+          params: {
+            id: Joi.number().integer().min(1).required()
+          }
         },
         handler: internals.handlers.update
       }

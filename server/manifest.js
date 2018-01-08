@@ -28,7 +28,9 @@ module.exports = {
     plugins: [
       ...Config.get('/plugins'),
       '../api/contacts',
-      { plugin: './database', options: Config.get('/db') }
+      { plugin: './database', options: Config.get('/db') },
+      'vision',
+      { plugin: 'hapi-swagger', options: { info: { title: 'Contacts App Documentation' } } }
     ]
   }
 }
