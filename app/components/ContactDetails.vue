@@ -158,7 +158,8 @@
 </template>
 
 <script>
-import { isEqual, cloneDeep } from 'lodash'
+import isEqual from 'lodash/isEqual'
+import cloneDeep from 'lodash/cloneDeep'
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 import ContactDetailGroupEntry from './ContactDetailGroupEntry'
 import ContactDetailDateEntry from './ContactDetailDateEntry'

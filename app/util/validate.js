@@ -1,4 +1,4 @@
-import { capitalize } from 'lodash'
+import capitalize from 'lodash/capitalize'
 
 function create (input) {
   const { firstName, lastName, phoneNumbers, emails, addresses } = input

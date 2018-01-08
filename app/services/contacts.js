@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { parse as parseDate } from 'date-fns'
-import { omit } from 'lodash'
+import omit from 'lodash/omit'
 
 const basePath = '/api/contacts'
 

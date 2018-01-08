@@ -46,7 +46,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { debounce } from 'lodash'
+import debounce from 'lodash/debounce'
 import WelcomeMessage from './WelcomeMessage'
 
 export default {
