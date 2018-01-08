@@ -23,10 +23,11 @@
         </v-btn>
         <h3
           class="headline"
-          :style="`width: ${windowWidth - 188}px`"
+          :style="isMobile ? `width: ${windowWidth - 188}px` : ''"
         >
           {{ selectedContact.firstName }} {{ selectedContact.lastName }}
         </h3>
+        <v-spacer v-if="!isMobile"/>
         <v-btn
           icon
           @click="switchToEditMode"

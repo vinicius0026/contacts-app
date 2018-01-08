@@ -40,7 +40,7 @@
         </v-list-tile-content>
       </v-list-tile>
     </v-list>
-    <WelcomeMessage v-else />
+    <WelcomeMessage v-else-if="isMobile"/>
   </v-flex>
 </template>
 
@@ -60,7 +60,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['contacts'])
+    ...mapGetters(['contacts', 'isMobile'])
   },
   watch: {
     contacts () {
