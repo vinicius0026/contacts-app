@@ -40,6 +40,7 @@ internals.registerRoutes = async function (server) {
       method: 'GET',
       path: internals.basePath,
       config: {
+        tags: ['api'],
         description: 'Lists all contacts',
         handler: internals.handlers.listAll
       }
