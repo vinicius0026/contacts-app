@@ -6,7 +6,7 @@
       v-else
       v-model="showDetails"
       fullscreen
-      transition="dialog-right-transition"
+      transition="dialog-bottom-transition"
       :overlay="false"
     >
       <ContactDetails/>
