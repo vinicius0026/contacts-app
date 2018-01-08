@@ -1,6 +1,6 @@
 {
   "name": "contacts-app",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Contacts app",
   "scripts": {
     "dev": "NODE_ENV=development node start",
