@@ -4,7 +4,7 @@
   "description": "Contacts app",
   "scripts": {
     "dev": "NODE_ENV=development node start",
-    "prestart": "knex migrate:latest && npm run build",
+    "prestart": "knex migrate:latest",
     "start": "cross-env NODE_ENV=production node start",
     "build": "rimraf dist && npm run build:client && npm run build:server",
     "build:client": "cross-env NODE_ENV=production webpack --config build/webpack.client.config.js --progress --hide-modules",
