@@ -1,5 +1,6 @@
 const Boom = require('boom')
 const Path = require('path')
+const pkg = require('../package.json')
 
 const Config = require('./config')
 
@@ -30,7 +31,7 @@ module.exports = {
       '../api/contacts',
       { plugin: './database', options: Config.get('/db') },
       'vision',
-      { plugin: 'hapi-swagger', options: { info: { title: 'Contacts App Documentation' } } }
+      { plugin: 'hapi-swagger', options: { info: { title: 'Contacts App Documentation', version: pkg.version } } }
     ]
   }
 }
