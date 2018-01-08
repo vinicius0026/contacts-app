@@ -20,7 +20,7 @@
         </v-flex>
       </v-layout>
     </v-container>
-    <v-list>
+    <v-list v-if="contacts.length">
       <v-list-tile
         v-for="contact in filteredContacts"
         :key="contact.id"
@@ -32,14 +32,27 @@
           </v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
+      <v-list-tile v-if="filteredContacts.length === 0">
+        <v-list-tile-content>
+          <v-list-tile-title>
+            <em>No contact matched your query</em>
+          </v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile>
     </v-list>
+    <WelcomeMessage v-else />
   </v-flex>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import { debounce } from 'lodash'
+import WelcomeMessage from './WelcomeMessage'
+
 export default {
+  components: {
+    WelcomeMessage
+  },
   data () {
     return {
       searchTerm: '',
