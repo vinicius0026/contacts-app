@@ -24,7 +24,7 @@ All requests to the API are done via service singletons, that lie in `app/servic
 
 The app is bundled with [webpack](https://webpack.github.io/). All `webpack` related configuration is under `build` folder.
 
-[Vuetify](https://vuetifyjs.com/) Material Component Framework was used for most app's layout. The design was inspired by macOs Contacts app and on [Google Contacts](https://contacts.google.com/) app.
+[Vuetify](https://vuetifyjs.com/) Material Component Framework was used for most app's layout. The design was inspired by macOs Contacts app and by [Google Contacts](https://contacts.google.com/) app.
 
 ### Back-end
 
@@ -39,7 +39,7 @@ For each resource on the API there is a folder under `server/api` containing the
 - `model.js` The resource model. All database operations go through this file
 - `schema.js` A schema declaration file, using [Joi](https://github.com/hapijs/joi), used on route validation
 
-[Objection](http://vincit.github.io/objection.js/) ORM is used for simplifying database queries. All model classes extend `server/util/BaseModel.js` class, which in turn extends the Objection Model class, adding some added niceties such as automatic conversion between camelCase and snake_case and automatic timestamping operations like insert and update.
+[Objection](http://vincit.github.io/objection.js/) ORM is used for simplifying database queries. All model classes extend `server/util/BaseModel.js` class, which in turn extends the Objection Model class, adding some niceties such as automatic conversion between camelCase and snake_case and automatic timestamping operations like insert and update.
 
 [knex](http://knexjs.org/) is the query builder used by Objection and it is also used to run database migrations. Migration files are stored under `migrations` directory on the project root.
 
