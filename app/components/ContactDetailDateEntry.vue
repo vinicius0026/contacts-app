@@ -5,19 +5,21 @@
   >
     <v-flex
       xs1
-      class="text-xs-right pr-3"
+      class="text-xs-center"
     >
       <v-icon>cake</v-icon>
     </v-flex>
     <v-flex
       xs11
       v-if="!editMode"
+      class="pl-3"
     >
       {{ text }}
     </v-flex>
     <v-flex
       xs11
       v-else
+      class="pl-3"
     >
       <DateInput
         v-model="date"

@@ -7,13 +7,16 @@ Vue.use(Vuex)
 const state = {
   contacts: [],
   selectedContact: null,
-  errorMessage: ''
+  errorMessage: '',
+  windowWidth: 0
 }
 
 const getters = {
   contacts: state => state.contacts,
   selectedContact: state => state.selectedContact,
-  errorMessage: state => state.errorMessage
+  errorMessage: state => state.errorMessage,
+  isMobile: state => state.windowWidth < 600,
+  windowWidth: state => state.windowWidth
 }
 
 const mutations = {
@@ -25,6 +28,9 @@ const mutations = {
   },
   setErrorMessage (state, message) {
     state.errorMessage = message
+  },
+  setWindowWidth (state, width) {
+    state.windowWidth = width
   }
 }
 

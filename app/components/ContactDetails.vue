@@ -3,6 +3,7 @@
     xs12
     sm6
     md8
+    class="contact-details"
   >
     <v-card
       v-if="selectedContact"
@@ -13,10 +14,19 @@
         v-if="!editMode"
         style="padding-bottom: 2px"
       >
-        <h3 class="headline">
+        <v-btn
+          class="hidden-sm-and-up"
+          icon
+          @click="goBack"
+        >
+          <v-icon>navigate_before</v-icon>
+        </v-btn>
+        <h3
+          class="headline"
+          :style="`width: ${windowWidth - 188}px`"
+        >
           {{ selectedContact.firstName }} {{ selectedContact.lastName }}
         </h3>
-        <v-spacer/>
         <v-btn
           icon
           @click="switchToEditMode"
@@ -46,7 +56,10 @@
       >
         <v-container class="pa-0">
           <v-layout>
-            <v-flex xs5>
+            <v-flex
+              xs4
+              sm5
+            >
               <v-text-field
                 v-model="editedContact.firstName"
                 label="First Name"
@@ -55,7 +68,10 @@
                 maxlength="100"
               />
             </v-flex>
-            <v-flex xs5>
+            <v-flex
+              xs4
+              sm5
+            >
               <v-text-field
                 v-model="editedContact.lastName"
                 label="Last Name"
@@ -64,7 +80,8 @@
               />
             </v-flex>
             <v-flex
-              xs2
+              xs4
+              sm2
               class="text-xs-right"
             >
               <v-btn
@@ -93,7 +110,20 @@
         </v-container>
       </v-card-title>
       <v-card-text>
-        <v-container>
+        <v-container :class="{ 'pa-0': isMobile }">
+          <v-layout
+            v-if="isMobile && !editMode"
+            wrap
+          >
+            <v-flex xs12>
+              <v-subheader>Full Name</v-subheader>
+            </v-flex>
+            <v-flex xs12>
+              <p>
+                {{ selectedContact.fullName }}
+              </p>
+            </v-flex>
+          </v-layout>
           <v-layout>
             <v-flex xs12>
               <v-subheader>Contact details</v-subheader>
@@ -124,7 +154,7 @@
     </v-card>
     <v-card
       v-else
-      class="elevation-0"
+      class="elevation-0 hidden-xs-only"
     >
       <v-card-title primary-title>
         <h3 class="headline">
@@ -162,7 +192,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['selectedContact', 'contacts'])
+    ...mapGetters(['selectedContact', 'contacts', 'isMobile', 'windowWidth'])
   },
   watch: {
     selectedContact () {
@@ -231,7 +261,23 @@ export default {
       if (!this.editedContact.id) {
         this.selectContact(null)
       }
+    },
+    goBack () {
+      this.selectContact(null)
     }
   }
 }
 </script>
+
+<style lang="stylus" scoped>
+.contact-details
+  height 100vh
+
+  & > .card
+    height 100vh !important
+
+  & .headline
+    overflow-x hidden
+    text-overflow ellipsis
+    white-space nowrap
+</style>

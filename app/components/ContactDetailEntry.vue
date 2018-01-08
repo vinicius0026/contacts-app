@@ -2,19 +2,21 @@
   <v-layout class="pa-2 mt-2">
     <v-flex
       xs1
-      class="text-xs-right pr-3"
+      class="text-xs-center"
     >
       <v-icon>{{ icon }}</v-icon>
     </v-flex>
     <v-flex
       xs11
       v-if="!editMode"
+      class="pl-3"
     >
       {{ value }}
     </v-flex>
     <v-flex
       xs11
       v-else
+      class="pl-3"
     >
       <v-text-field
         v-model="text"
