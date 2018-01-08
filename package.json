@@ -13,7 +13,8 @@
     "test": "NODE_ENV=test lab -v -c -l -a code -L",
     "analyse": "cross-env NODE_ENV=production webpack --profile --json --progress --config build/webpack.client.config.js> stats.json && webpack-bundle-analyzer stats.json",
     "knex": "knex",
-    "lint": "eslint ./{app,build,server}/**/*.{vue,js}"
+    "lint": "eslint ./{app,build,server}/**/*.{vue,js}",
+    "release": "npm-release && git push heroku master"
   },
   "keywords": [
     "vue",
@@ -48,6 +49,7 @@
     "isomorphic-style-loader": "^4.0.0",
     "lab": "^15.1.2",
     "memory-fs": "^0.4.1",
+    "npm-release": "^1.0.0",
     "standard": "^10.0.3",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
