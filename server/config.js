@@ -15,7 +15,11 @@ const port = process.env.PORT
 const config = {
   $meta: 'Environment based config',
   server: {
-    host: 'localhost',
+    host: {
+      $filter: 'env',
+      $default: 'localhost',
+      production: '0.0.0.0'
+    },
     port,
     baseUrl: `http://localhost:${port}/`
   },
