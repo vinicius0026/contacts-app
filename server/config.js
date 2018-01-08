@@ -10,7 +10,7 @@ const criteria = {
   env: process.env.NODE_ENV
 }
 
-const port = process.env.PORT || '8080'
+const port = process.env.PORT
 
 const config = {
   $meta: 'Environment based config',
