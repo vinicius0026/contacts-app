@@ -35,9 +35,7 @@ const config = {
         database: 'contacts_app_dev'
       },
       production: {
-        database: 'contacts_app',
-        user: process.env.POSTGRES_USER,
-        password: process.env.POSTGRES_PASS
+        database: process.env.DATABASE_URL
       }
     }
   }
